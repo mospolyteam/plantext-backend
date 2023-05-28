@@ -1,4 +1,4 @@
-from .models import Book, Review
+from .models import Book, Review, User
 from rest_framework import serializers
 
 
@@ -12,3 +12,10 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Review
         fields = ['url', 'user', 'text_review']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'last_login', 'first_name', 'last_name', 'email', 'photo', 'bio', 'is_active', 'is_staff', 'is_superuser']
+        read_only_field = ['is_active', 'is_staff', 'is_superuser']
