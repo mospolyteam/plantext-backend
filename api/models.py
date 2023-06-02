@@ -8,7 +8,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="Email", unique=True)
     first_name = models.CharField(verbose_name="Имя", max_length=255)
     last_name = models.CharField(verbose_name="Фамилия", max_length=255)
-    photo = models.ImageField(verbose_name="Аватарка", upload_to="users/photos", default="../static/images/avatar-placeholder.svg")
+    photo = models.ImageField(verbose_name="Аватарка", upload_to="users/photos",
+                              default="../static/images/avatar-placeholder.svg")
     bio = models.TextField(verbose_name="О себе", blank=True)
 
     is_active = models.BooleanField(verbose_name='Активирован', default=True)
@@ -31,24 +32,83 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Review(models.Model):
     user = models.ForeignKey(to=User, verbose_name='Автор отзыва', on_delete=models.PROTECT)
     text_review = models.TextField(verbose_name="Текст отзыва")
+    book = models.ForeignKey(to='Book', verbose_name='Книга', on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    published_at = models.DateTimeField(verbose_name='Дата публикации')
+    is_published = models.BooleanField(verbose_name='Опубликован', default=False)
 
     def __str__(self):
         return self.text_review[:32]
-    
+
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+
+
+class Quote(models.Model):
+    author = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    text = models.TextField(verbose_name='Текст цитаты')
+    book = models.ForeignKey(to='Book', verbose_name='Книга', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    is_published = models.BooleanField(verbose_name='Опубликова', default=False)
+
+    def __str__(self):
+        return f'{self.text[:16]}... | {self.book}'
+
+    class Meta:
+        verbose_name = 'Цитата'
+        verbose_name_plural = 'Цитаты'
 
 
 class Book(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название')
     author = models.CharField(max_length=255, verbose_name='Автор')
     description = models.TextField(verbose_name='Описание')
-    reviews = models.ForeignKey(to=Review, verbose_name="Отзывы", null=True, blank=True, on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Обложка', upload_to='books/previews')
+    reading = models.ManyToManyField(to=User, verbose_name='Прочтения', related_name='readings')
+    ratings = models.ManyToManyField(to=User, through='BookRatingRelationship', related_name='ratings')
+
+    @property
+    def reading_count(self):
+        return self.reading.count()
+
+    reading_count.fget.short_description = 'Количество прочтений'
+
+    @property
+    def reviews_count(self):
+        return self.review_set.count()
+
+    reviews_count.fget.short_description = 'Количество отзывов'
+
+    @property
+    def quotes_count(self):
+        return self.quote_set.count()
+
+    quotes_count.fget.short_description = 'Количество цитат'
+
+    @property
+    def rating(self):
+        return self.ratings.count()
+
+    rating.fget.short_description = 'Оценка'
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
+
+
+class BookRatingRelationship(models.Model):
+    book = models.ForeignKey(to=Book, verbose_name='Книга', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    value = models.IntegerField(verbose_name='Оценка')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    def __str__(self):
+        return self.value
+
+    class Meta:
+        verbose_name = 'Оценка'
+        verbose_name_plural = 'Оценки'
