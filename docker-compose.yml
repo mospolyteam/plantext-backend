@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    logging:
+        driver: 'none' # disable saving logs
+    ports:
+        - 1025:1025 # smtp server
+        - 8025:8025 # web ui
   api:
     build:
       context: ./
@@ -16,6 +24,10 @@ services:
     restart: always
     ports:
       - 8080:8000
+    depends_on:
+      - mailhog
+    links:
+      - "mailhog"
   client:
     build:
       context: ../plantext/
