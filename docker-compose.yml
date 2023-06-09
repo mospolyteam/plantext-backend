@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: 'api'
+    command: >
+      /bin/sh -c "python3 manage.py createsuperuser"
+    environment:
+      - DJANGO_SUPERUSER_FIRST_NAME=admin
+      - DJANGO_SUPERUSER_LAST_NAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.admin
+    restart: always
+    ports:
+      - 8080:8000
+  client:
+    build:
+      context: ../plantext/
+      dockerfile: ./Dockerfile
+    container_name: 'client'
+    restart: always
+    ports:
+      - 8030:3000
+    depends_on:
+      - api
