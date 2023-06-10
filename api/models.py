@@ -104,6 +104,7 @@ class BookRatingRelationship(models.Model):
     book = models.ForeignKey(to=Book, verbose_name='Книга', on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     value = models.IntegerField(verbose_name='Оценка')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
@@ -112,3 +113,58 @@ class BookRatingRelationship(models.Model):
     class Meta:
         verbose_name = 'Оценка'
         verbose_name_plural = 'Оценки'
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=64, verbose_name='Заголовок')
+    author = models.ForeignKey(to=User, verbose_name='Автор', null=True, blank=True, on_delete=models.SET_NULL)
+    text = models.TextField(verbose_name='Содержание')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
+
+
+class Writer(models.Model):
+    name = models.CharField(max_length=64, verbose_name='ФИО')
+    birthday = models.DateField(verbose_name='Дата рождения')
+    death_day = models.DateField(verbose_name='Дата смерти')
+    ratings = models.ManyToManyField(to=Book, through='BookRatingRelationship', related_name='ratings')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+
+class WriterRatingRelationship(models.Model):
+    writer = models.ForeignKey(to=Writer, verbose_name='Писатель', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    value = models.IntegerField(verbose_name='Оценка')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    def __str__(self):
+        return self.value
+
+    class Meta:
+        verbose_name = 'Оценка автора'
+        verbose_name_plural = 'Оценки авторов'
+
+
+class Partner(models.Model):
+    name = models.CharField(max_length=64, verbose_name='Название')
+    image = models.ImageField(verbose_name='Логотип', upload_to='partners')
+    link = models.CharField(max_length=128, verbose_name='Ссылка')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Партнер'
+        verbose_name_plural = 'Партнеры'
