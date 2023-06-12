@@ -4,21 +4,48 @@ services:
   mailhog:
     image: mailhog/mailhog
     container_name: mailhog
+    networks:
+      - plantextNetwork
     logging:
         driver: 'none' # disable saving logs
+    restart: always
     ports:
         - 1025:1025 # smtp server
         - 8025:8025 # web ui
+  redis:
+    image: redis
+    restart: always
+    container_name: 'redis'
+    networks:
+      - plantextNetwork
+    command: redis-server
+    ports:
+      - '6379:6379'
+  celery:
+    build: .
+    container_name: 'celery'
+    networks:
+      - plantextNetwork
+    command: celery -A plantext worker -B
+    restart: always
+    links:
+      - redis
+    depends_on:
+      - api
+      - redis
   api:
     build:
       context: ./
       dockerfile: ./Dockerfile
     container_name: 'api'
+    networks:
+      - plantextNetwork
+    volumes:
+      - ./db.sqlite3:/plantext-backend/db.sqlite3
+      - ./static:/plantext-backend/static
+      - ./media:/plantext-backend/media
     environment:
-      - DJANGO_SUPERUSER_FIRST_NAME=admin
-      - DJANGO_SUPERUSER_LAST_NAME=admin
-      - DJANGO_SUPERUSER_PASSWORD=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@admin.admin
+      - REDIS_HOST=redis
     restart: always
     ports:
       - 8080:8000
@@ -31,8 +58,13 @@ services:
       context: ../plantext/
       dockerfile: ./Dockerfile
     container_name: 'client'
+    networks:
+      - plantextNetwork
     restart: always
     ports:
       - 8030:3000
     depends_on:
       - api
+networks:
+  plantextNetwork:
+    driver: bridge

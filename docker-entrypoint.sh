@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Apply database migrations
+echo "Apply app migrations"
+python3 manage.py makemigrations api
+
 echo "Apply database migrations"
 python3 manage.py migrate
 
-# Start server
 echo "Starting server"
 python manage.py runserver 0.0.0.0:8000
