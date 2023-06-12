@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from .models import Book, Review, User
 from .serializers import BookSerializer, ReviewSerializer, UserSerializer
 
+
 class BookViewSet(ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -27,7 +28,7 @@ class BookViewSet(ModelViewSet):
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-  
+
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
