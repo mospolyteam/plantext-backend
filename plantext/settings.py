@@ -136,3 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST = 'mailhog'
 EMAIL_PORT = 1025
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
