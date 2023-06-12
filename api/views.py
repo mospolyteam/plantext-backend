@@ -12,7 +12,6 @@ class BookViewSet(ModelViewSet):
 
     @receiver(post_save)
     def send_mail_on_create(sender, instance=None, created=False, **kwargs):
-        print(instance, sender)
         if created:
             if (sender == Book):
                 send_mail(
