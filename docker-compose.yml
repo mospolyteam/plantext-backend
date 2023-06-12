@@ -14,8 +14,6 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     container_name: 'api'
-    command: >
-      /bin/sh -c "python3 manage.py createsuperuser"
     environment:
       - DJANGO_SUPERUSER_FIRST_NAME=admin
       - DJANGO_SUPERUSER_LAST_NAME=admin
