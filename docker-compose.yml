@@ -28,11 +28,41 @@ services:
       - plantextNetwork
     command: celery -A plantext worker -B
     restart: always
+    volumes:
+      - ./db.sqlite3:/plantext-backend/db.sqlite3
     links:
-      - redis
+      - "redis"
     depends_on:
       - api
       - redis
+  celery-beat:
+    build: .
+    container_name: 'celery-beat'
+    networks:
+      - plantextNetwork
+    command: celery -A plantext beat -l info
+    volumes:
+      - ./db.sqlite3:/plantext-backend/db.sqlite3
+    restart: always
+    links:
+      - "redis"
+    depends_on:
+      - api
+      - redis
+  flower:
+    build: .
+    command: celery -A flower -l info
+    container_name: 'flower'
+    networks:
+      - plantextNetwork
+    ports:
+      - 5557:5555
+    links:
+      - "redis"
+    restart: always
+    depends_on:
+      - redis
+      - api
   api:
     build:
       context: ./

@@ -17,7 +17,7 @@ class BookViewSet(ModelViewSet):
             if (sender == Book):
                 send_mail(
                     "New book",
-                    "We have a new book: " + instance,
+                    "We have a new book",
                     "plantext@bookshop.ru",
                     ["examplemail@mail.com"],
                     fail_silently=False,
