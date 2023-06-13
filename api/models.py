@@ -66,7 +66,7 @@ class Book(models.Model):
     description = models.TextField(verbose_name='Описание')
     image = models.ImageField(verbose_name='Обложка', upload_to='books/previews')
     reading = models.ManyToManyField(to=User, verbose_name='Прочтения', related_name='readings')
-    ratings = models.ManyToManyField(to=User, through='BookRatingRelationship', related_name='ratings')
+    ratings = models.ManyToManyField(to=User, through='BookRatingRelationship', related_name='book_ratings')
 
     @property
     def reading_count(self):
@@ -133,7 +133,7 @@ class Writer(models.Model):
     name = models.CharField(max_length=64, verbose_name='ФИО')
     birthday = models.DateField(verbose_name='Дата рождения')
     death_day = models.DateField(verbose_name='Дата смерти')
-    ratings = models.ManyToManyField(to=Book, through='BookRatingRelationship', related_name='ratings')
+    ratings = models.ManyToManyField(to=User, through='WriterRatingRelationship', related_name='writer_ratings')
 
     def __str__(self):
         return self.name
