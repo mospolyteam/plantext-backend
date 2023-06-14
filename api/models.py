@@ -104,7 +104,6 @@ class BookRatingRelationship(models.Model):
     book = models.ForeignKey(to=Book, verbose_name='Книга', on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     value = models.IntegerField(verbose_name='Оценка')
-
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
