@@ -24,7 +24,6 @@ class BookViewSet(ModelViewSet):
                 )
 
 
-
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer

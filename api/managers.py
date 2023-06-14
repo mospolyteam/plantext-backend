@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None):
         if first_name is None or last_name is None:
@@ -8,9 +9,9 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have an email.')
 
         user = self.model(
-            email = self.normalize_email(email),
-            first_name = first_name,
-            last_name = last_name,
+            email=self.normalize_email(email),
+            first_name=first_name,
+            last_name=last_name,
         )
         user.set_password(password)
         user.save()
@@ -24,11 +25,11 @@ class UserManager(BaseUserManager):
             raise TypeError('Superusers must have an email.')
         if first_name is None or last_name is None:
             raise TypeError('Superusers must have an name.')
-        
+
         user = self.create_user(
-            email = self.normalize_email(email),
-            first_name = first_name,
-            last_name = last_name,
+            email=self.normalize_email(email),
+            first_name=first_name,
+            last_name=last_name,
             password=password,
         )
 
