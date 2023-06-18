@@ -1,0 +1,238 @@
+[
+{
+  "model": "api.review",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "text_review": "Text",
+    "book": 1,
+    "created_at": "2023-06-18T09:31:28.547Z",
+    "published_at": "2023-06-18T09:31:27Z",
+    "is_published": false
+  }
+},
+{
+  "model": "api.review",
+  "pk": 2,
+  "fields": {
+    "user": 1,
+    "text_review": "Text",
+    "book": 1,
+    "created_at": "2023-06-18T09:31:41.146Z",
+    "published_at": "2023-06-18T09:31:27Z",
+    "is_published": false
+  }
+},
+{
+  "model": "api.review",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "text_review": "Text",
+    "book": 5,
+    "created_at": "2023-06-18T09:31:47.241Z",
+    "published_at": "2023-06-18T09:31:27Z",
+    "is_published": false
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 1,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 2,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 3,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 4,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 5,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 6,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 7,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 8,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 9,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.writer",
+  "pk": 10,
+  "fields": {
+    "name": "Author",
+    "birthday": "2023-06-18",
+    "death_day": "2023-06-18"
+  }
+},
+{
+  "model": "api.book",
+  "pk": 1,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_36pUuVQ.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 2,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_JKR2htv.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 3,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_L2xvxzO.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 4,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_lrXBTJH.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 5,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_c0t7M1b.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 6,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_M26ysum.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 7,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_9pSFHGB.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 8,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_BuRPpue.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 9,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_EjHbehq.png",
+    "reading": []
+  }
+},
+{
+  "model": "api.book",
+  "pk": 10,
+  "fields": {
+    "name": "Book",
+    "author": 1,
+    "description": "Description",
+    "image": "books/previews/2_hgVP8U6.png",
+    "reading": []
+  }
+}
+]
