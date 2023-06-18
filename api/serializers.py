@@ -1,4 +1,4 @@
-from .models import Book, Review, User
+from .models import Book, Review, User, Writer
 from rest_framework import serializers
 
 
@@ -13,6 +13,12 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Review
         fields = ['url', 'book', 'user', 'text_review', 'created_at']
+
+
+class WriterSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Writer
+        fields = ['url', 'name', 'birthday', 'death_day', 'ratings']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
