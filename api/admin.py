@@ -3,11 +3,21 @@ from django.utils.safestring import mark_safe
 from rest_framework.reverse import reverse
 
 from .models import User, Review, Book, Quote, BookRatingRelationship, Article, WriterRatingRelationship, Writer, \
-    Partner
+    Partner, Visit
 
 
 def create_link(text, url, target=False):
     return f'<a href="{url}" target="{"_blank" if target else "_self"}">{text}</a>'
+
+
+class VisitAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'url', 'method')
+    search_fields = ('user',)
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'first_name', 'last_name')
+    list_display_links = ('id', 'email')
+    search_fields = ('id', 'email')
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -21,7 +31,7 @@ class BookAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'excerpt', 'user', 'get_book', 'created_at', 'is_published')
     list_display_links = ('id',)
-    search_fields = ('id', 'text_review', 'book')
+    search_fields = ('id', 'text_review')
     list_editable = ('is_published',)
     list_filter = ('created_at', 'is_published')
     autocomplete_fields = ('book', 'user')
@@ -47,7 +57,7 @@ class QuoteAdmin(admin.ModelAdmin):
     list_display_links = ('id',)
     list_filter = ('created_at', 'is_published')
     list_editable = ('is_published',)
-    search_fields = ('text', 'book', 'author')
+    search_fields = ('text',)
     readonly_fields = ('created_at',)
     autocomplete_fields = ('book', 'author')
 
@@ -70,7 +80,6 @@ class BookRatingRelationshipAdmin(admin.ModelAdmin):
     list_display = ('id', 'book', 'user', 'value', 'created_at')
     list_display_links = ('id', 'value', 'book', 'user')
     list_filter = ('value', 'created_at')
-    search_fields = ('user', 'book')
     readonly_fields = ('created_at',)
     autocomplete_fields = ('book', 'user')
 
@@ -79,7 +88,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'created_at')
     list_display_links = ('id', 'title')
     list_filter = ('created_at',)
-    search_fields = ('title', 'author', 'text')
+    search_fields = ('title', 'text')
     readonly_fields = ('created_at',)
     autocomplete_fields = ('author',)
 
@@ -87,6 +96,7 @@ class ArticleAdmin(admin.ModelAdmin):
 class WriterAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'birthday', 'death_day')
     list_display_links = ('id', 'name')
+    search_fields = ('name',)
     list_filter = ('birthday', 'death_day')
 
 
@@ -94,7 +104,6 @@ class WriterRatingRelationshipAdmin(admin.ModelAdmin):
     list_display = ('id', 'writer', 'user', 'value', 'created_at')
     list_display_links = ('id', 'writer', 'user', 'value')
     list_filter = ('created_at', 'value')
-    search_fields = ('writer', 'user')
     readonly_fields = ('created_at',)
     autocomplete_fields = ('writer', 'user')
 
@@ -123,11 +132,12 @@ class PartnerAdmin(admin.ModelAdmin):
     get_link.short_description = 'Сайт партнера'
 
 
-admin.site.register(User)
+admin.site.register(Visit, VisitAdmin)
+admin.site.register(User, UserAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Quote, QuoteAdmin)
-admin.site.refister(BookRatingRelationship, BookRatingRelationshipAdmin)
+admin.site.register(BookRatingRelationship, BookRatingRelationshipAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Writer, WriterAdmin)
 admin.site.register(WriterRatingRelationship, WriterRatingRelationshipAdmin)

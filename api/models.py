@@ -60,9 +60,23 @@ class Quote(models.Model):
         verbose_name_plural = 'Цитаты'
 
 
+class Writer(models.Model):
+    name = models.CharField(max_length=64, verbose_name='ФИО')
+    birthday = models.DateField(verbose_name='Дата рождения')
+    death_day = models.DateField(verbose_name='Дата смерти')
+    ratings = models.ManyToManyField(to=User, through='WriterRatingRelationship', related_name='writer_ratings')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+
 class Book(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название')
-    author = models.CharField(max_length=255, verbose_name='Автор')
+    author = models.ForeignKey(to=Writer, verbose_name='Автор', on_delete=models.CASCADE)
     description = models.TextField(verbose_name='Описание')
     image = models.ImageField(verbose_name='Обложка', upload_to='books/previews')
     reading = models.ManyToManyField(to=User, verbose_name='Прочтения', related_name='readings')
@@ -128,20 +142,6 @@ class Article(models.Model):
         verbose_name_plural = 'Статьи'
 
 
-class Writer(models.Model):
-    name = models.CharField(max_length=64, verbose_name='ФИО')
-    birthday = models.DateField(verbose_name='Дата рождения')
-    death_day = models.DateField(verbose_name='Дата смерти')
-    ratings = models.ManyToManyField(to=User, through='WriterRatingRelationship', related_name='writer_ratings')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Автор'
-        verbose_name_plural = 'Авторы'
-
-
 class WriterRatingRelationship(models.Model):
     writer = models.ForeignKey(to=Writer, verbose_name='Писатель', on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
@@ -167,3 +167,10 @@ class Partner(models.Model):
     class Meta:
         verbose_name = 'Партнер'
         verbose_name_plural = 'Партнеры'
+
+
+class Visit(models.Model):
+    user = models.ForeignKey(to=User, verbose_name="Пользователь", on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата посещения")
+    url = models.URLField(max_length=255, verbose_name="Адрес страницы")
+    method = models.CharField(max_length=20, verbose_name="Метод")

@@ -3,8 +3,8 @@ from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-from .models import Book, Review, User
-from .serializers import BookSerializer, ReviewSerializer, UserSerializer
+from .models import Book, Review, User, Writer
+from .serializers import BookSerializer, ReviewSerializer, UserSerializer, WriterSerializer
 
 
 class BookViewSet(ModelViewSet):
@@ -33,3 +33,8 @@ class ReviewViewSet(ModelViewSet):
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class WriterViewSet(ModelViewSet):
+    queryset = Writer.objects.all()
+    serializer_class = WriterSerializer
