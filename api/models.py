@@ -167,3 +167,10 @@ class Partner(models.Model):
     class Meta:
         verbose_name = 'Партнер'
         verbose_name_plural = 'Партнеры'
+
+
+class Visit(models.Model):
+    user = models.ForeignKey(to=User, verbose_name="Пользователь", on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата посещения")
+    url = models.URLField(max_length=255, verbose_name="Адрес страницы")
+    method = models.CharField(max_length=20, verbose_name="Метод")

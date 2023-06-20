@@ -3,12 +3,16 @@ from django.utils.safestring import mark_safe
 from rest_framework.reverse import reverse
 
 from .models import User, Review, Book, Quote, BookRatingRelationship, Article, WriterRatingRelationship, Writer, \
-    Partner
+    Partner, Visit
 
 
 def create_link(text, url, target=False):
     return f'<a href="{url}" target="{"_blank" if target else "_self"}">{text}</a>'
 
+
+class VisitAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'url', 'method')
+    search_fields = ('user',)
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'email', 'first_name', 'last_name')
@@ -128,6 +132,7 @@ class PartnerAdmin(admin.ModelAdmin):
     get_link.short_description = 'Сайт партнера'
 
 
+admin.site.register(Visit, VisitAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Book, BookAdmin)
