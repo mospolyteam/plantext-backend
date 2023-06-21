@@ -25,6 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     class Meta:
+        swappable = 'AUTH_USER_MODEL'
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
