@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'api.services.LogMiddleware',
+    'api.middlewares.LogMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -184,7 +184,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = 'mailhog'
 EMAIL_PORT = 1025
 
-REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
+# Docker
+REDIS_HOST = 'redis'
+# Local
+# REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -201,17 +204,25 @@ SESSION_CACHE_ALIAS = "default"
 
 CACHE_TTL = 60 * 1
 
+# For docker
 CELERY_BROKER_URL = f"redis://redis:6379/1"
 CELERY_RESULT_BACKEND = f"redis://redis:6379/1"
+# For local
+# CELERY_BROKER_URL = f"redis://127.0.0.1:6379/1"
+# CELERY_RESULT_BACKEND = f"redis://127.0.0.1:6379/1"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'stats': { 
-        'task': 'api.tasks.stats',
-        'schedule': crontab(),
-    },                                                             
+    # 'stats': { 
+    #     'task': 'api.tasks.stats',
+    #     'schedule': crontab(),
+    # },
+    'visits': {
+        'task': 'api.tasks.visits',
+        'schedule': 60.0,
+    }                                                     
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
